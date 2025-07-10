@@ -42,50 +42,50 @@ Di WordPress, kamu akan sering berurusan dengan tiga elemen kunci ini saat memba
     * **Analoginya:** **Custom Taxonomy itu persis seperti "Kategori" dan "Tag" bawaan WordPress, tapi untuk CPT buatan kita.** Jadi, kalau kita punya CPT "Produk", kita bisa bikin Taxonomy "Merek" atau "Ukuran" untuk mengelompokkan produk kita.
     * **Intinya:** Taxonomy berfungsi untuk **mengelompokkan atau mengklasifikasikan konten** dari CPT kita, mirip seperti kategori.
 
-```
-// simpna kode di function.php
-function register_my_custom_taxonomy() {
-    $labels = array(
-        'name'              => 'Nama Taksonomi (Jamak)', // Nama umum (contoh: 'Merek')
-        'singular_name'     => 'Nama Taksonomi (Tunggal)', // Nama tunggal (contoh: 'Merek')
-        'add_new_item'      => 'Tambah Nama Taksonomi Baru', // Teks untuk "Add New Item"
-        'new_item_name'     => 'Nama Taksonomi Baru', // Teks untuk "New Item Name"
-        'all_items'         => 'Semua Nama Taksonomi', // Teks untuk "All Items"
-        // ... label lainnya
-    );
-    $args = array(
-        'labels'       => $labels,
-        'public'       => true, // 'true' berarti Taxonomy ini akan terlihat di admin dan di website
-        'hierarchical' => true, // 'true' = seperti Kategori (bisa punya anak/sub-kategori); 'false' = seperti Tag (flat)
-        'rewrite'      => array( 'slug' => 'slug_taxonomy_anda' ), // Ini adalah bagian dari URL (contoh: yoursite.com/merek/nama-merek/)
-        'show_in_rest' => true, // **PENTING:** Set ini ke 'true' jika kamu ingin Taxonomy ini bisa diakses via WordPress REST API
-        // ... argumen lainnya
-    );
-    // 'slug_taxonomy_anda' adalah ID unik Taxonomy-mu.
-    // Array kedua berisi slug CPT yang akan menggunakan taxonomy ini (contoh: array('produk', 'kursus')).
-    register_taxonomy( 'slug_taxonomy_anda', array( 'post', 'slug_cpt_anda' ), $args );
-}
-add_action( 'init', 'register_my_custom_taxonomy' );
-
-```
+      ```
+      // simpna kode di function.php
+      function register_my_custom_taxonomy() {
+          $labels = array(
+              'name'              => 'Nama Taksonomi (Jamak)', // Nama umum (contoh: 'Merek')
+              'singular_name'     => 'Nama Taksonomi (Tunggal)', // Nama tunggal (contoh: 'Merek')
+              'add_new_item'      => 'Tambah Nama Taksonomi Baru', // Teks untuk "Add New Item"
+              'new_item_name'     => 'Nama Taksonomi Baru', // Teks untuk "New Item Name"
+              'all_items'         => 'Semua Nama Taksonomi', // Teks untuk "All Items"
+              // ... label lainnya
+          );
+          $args = array(
+              'labels'       => $labels,
+              'public'       => true, // 'true' berarti Taxonomy ini akan terlihat di admin dan di website
+              'hierarchical' => true, // 'true' = seperti Kategori (bisa punya anak/sub-kategori); 'false' = seperti Tag (flat)
+              'rewrite'      => array( 'slug' => 'slug_taxonomy_anda' ), // Ini adalah bagian dari URL (contoh: yoursite.com/merek/nama-merek/)
+              'show_in_rest' => true, // **PENTING:** Set ini ke 'true' jika kamu ingin Taxonomy ini bisa diakses via WordPress REST API
+              // ... argumen lainnya
+          );
+          // 'slug_taxonomy_anda' adalah ID unik Taxonomy-mu.
+          // Array kedua berisi slug CPT yang akan menggunakan taxonomy ini (contoh: array('produk', 'kursus')).
+          register_taxonomy( 'slug_taxonomy_anda', array( 'post', 'slug_cpt_anda' ), $args );
+      }
+      add_action( 'init', 'register_my_custom_taxonomy' );
+      
+      ```
 
 3.  **Advanced Custom Fields (ACF)**
     * **Apa itu?** Setelah kamu punya "tabel" (CPT), kamu pasti butuh "kolom-kolom" data di dalam tabel itu. Misalnya, untuk CPT "Produk", kamu butuh kolom `harga`, `stok`, `warna`. WordPress CPT secara default hanya punya `judul` dan `konten`.
     * **Analoginya:** **ACF ini seperti tool canggih yang memungkinkan kita "menambahkan kolom-kolom custom" ke CPT atau Taxonomy kita, dan yang paling penting, kamu bisa mendefinisikan jenis datanya (teks, angka, gambar, link, dll.) tanpa harus ngoding database atau form manual.** Kamu tinggal klik-klik saja di admin.
     * **Intinya:** ACF adalah cara mudah untuk **mendefinisikan dan mengelola "kolom" atau "field" tambahan** untuk CPT atau Taxonomy kita.
   
-```
-// Asumsikan kamu memiliki ID dari postingan (bisa CPT 'post' default atau CPT kustom kamu)
-$post_id = get_the_ID(); // Mengambil ID postingan saat ini jika kamu berada di dalam loop WordPress
-// Atau bisa juga ID spesifik: $post_id = 123;
-
-// Untuk mengambil nilai dari sebuah ACF field:
-// Parameter pertama adalah 'field_name' (nama unik field yang kamu atur di ACF plugin).
-// Parameter kedua adalah post ID dari postingan tempat field ini disimpan.
-
-// Contoh: Mengambil nilai field Teks
-$my_text_field_value = get_field( 'nama_field_teks_anda', $post_id );
-```
+      ```
+      // Asumsikan kamu memiliki ID dari postingan (bisa CPT 'post' default atau CPT kustom kamu), biasa nya didapat dari perulangan
+      $post_id = get_the_ID(); // Mengambil ID postingan saat ini jika kamu berada di dalam loop WordPress
+      // Atau bisa juga ID spesifik: $post_id = 123;
+      
+      // Untuk mengambil nilai dari sebuah ACF field:
+      // Parameter pertama adalah 'field_name' (nama unik field yang kamu atur di ACF plugin).
+      // Parameter kedua adalah post ID dari postingan tempat field ini disimpan.
+      
+      // Contoh: Mengambil nilai field Teks
+      $my_text_field_value = get_field( 'nama_field_teks_anda', $post_id );
+      ```
 
 ### Hubungan Antar Mereka
 
